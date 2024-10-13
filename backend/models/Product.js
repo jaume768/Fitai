@@ -1,31 +1,41 @@
+// ecommerce-backend/models/Product.js
 const mongoose = require('mongoose');
 
-const ProductSchema = new mongoose.Schema({
-    nombre: {
-        type: String,
-        required: [true, 'Por favor, ingresa el nombre del producto'],
+const productSchema = new mongoose.Schema(
+    {
+        nombre: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        descripcion: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        precio: {
+            type: Number,
+            required: true,
+            default: 0.0,
+        },
+        categoria: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
+            required: true,
+        },
+        imagen: {
+            type: String,
+            required: true,
+        },
+        stock: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
     },
-    descripcion: {
-        type: String,
-        required: [true, 'Por favor, ingresa una descripción del producto'],
-    },
-    precio: {
-        type: Number,
-        required: [true, 'Por favor, ingresa el precio del producto'],
-    },
-    categoria: {
-        type: String,
-        required: [true, 'Por favor, ingresa la categoría del producto'],
-    },
-    imagen: {
-        type: String,
-        required: [true, 'Por favor, ingresa la URL de la imagen del producto'],
-    },
-    stock: {
-        type: Number,
-        required: [true, 'Por favor, ingresa la cantidad en stock'],
-        default: 0,
-    },
-}, { timestamps: true });
+    {
+        timestamps: true,
+    }
+);
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Product', productSchema);

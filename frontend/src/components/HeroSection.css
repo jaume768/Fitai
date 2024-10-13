@@ -1,0 +1,74 @@
+/* src/components/HeroSection.css */
+
+.hero-container {
+    width: 100%;
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #ffffff;
+}
+
+.hero-content {
+    padding: 2rem;
+    text-align: left;
+    max-width: 500px;
+    color: #ffffff;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.hero-buttons .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 20px;
+    /* Botones redondeados */
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-buttons .btn-women {
+    background-color: #ffffff;
+    /* Fondo blanco */
+    color: #000000;
+    /* Texto negro */
+}
+
+.hero-buttons .btn-women:hover {
+    background-color: #f0f0f0;
+    /* Color de fondo al pasar el cursor */
+}
+
+.hero-buttons .btn-men {
+    background-color: #808080;
+    /* Fondo gris */
+    color: #ffffff;
+    /* Texto blanco */
+}
+
+.hero-buttons .btn-men:hover {
+    background-color: #696969;
+    /* Color de fondo al pasar el cursor */
+}
