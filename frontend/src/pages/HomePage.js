@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import HeroSection from '../components/HeroSection';
-import './HomePage.css'; // Asegúrate de crear este archivo para estilos
+import './css/HomePage.css';
 
 const HomePage = () => {
     const [products, setProducts] = useState([]);

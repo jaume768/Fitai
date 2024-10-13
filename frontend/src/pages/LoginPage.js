@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import './LoginPage.css'; // Asegúrate de crear este archivo para estilos
+import './css/LoginPage.css';
 
 const LoginPage = () => {
     const navigate = useNavigate();

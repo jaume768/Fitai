@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import './RegisterPage.css'; // Crea este archivo para estilos
+import './css/RegisterPage.css';
 
 const RegisterPage = () => {
     const navigate = useNavigate();

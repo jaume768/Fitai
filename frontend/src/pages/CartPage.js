@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
-import './CartPage.css'; // Asegúrate de crear este archivo para estilos
+import './css/CartPage.css';
 
 const CartPage = () => {
     const { cartItems, removeFromCart, clearCart } = useCart();

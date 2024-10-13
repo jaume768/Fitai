@@ -1,6 +1,6 @@
 import React from 'react';
-import './HeroSection.css'; // Crea este archivo para estilos
-import heroImage from '../assets/images/hero.png'; // Ajusta el nombre del archivo según corresponda
+import './css/HeroSection.css';
+import heroImage from '../assets/images/hero.png';
 import { Link } from 'react-router-dom';
 
 const HeroSection = () => {

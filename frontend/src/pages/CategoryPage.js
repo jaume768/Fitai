@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../utils/api';
 import ProductCard from '../components/ProductCard';
-import './CategoryPage.css'; // Crea este archivo para estilos
+import './css/CategoryPage.css';
 
 const CategoryPage = () => {
     const { category } = useParams();

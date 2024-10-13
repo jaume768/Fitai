@@ -1,9 +1,8 @@
-// src/components/Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
-import './Navbar.css'; // Asegúrate de crear este archivo para estilos
-import { ReactComponent as Icon } from '../assets/images/icon.svg'; // Importar el SVG como componente
+import './css/Navbar.css';
+import { ReactComponent as Icon } from '../assets/images/icon.svg';
 
 const Navbar = () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
