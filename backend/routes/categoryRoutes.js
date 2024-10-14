@@ -13,7 +13,7 @@ const { protect } = require('../middlewares/authMiddleware');
 router.get('/', getAllCategories);
 router.get('/:id', getCategoryById);
 
-// Rutas protegidas (solo admin)
+// Rutas protegidas
 router.post('/', protect, createCategory);
 router.put('/:id', protect, updateCategory);
 router.delete('/:id', protect, deleteCategory);

@@ -1,65 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import api from '../utils/api';
-import { useNavigate, Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
-import './css/RegisterPage.css';
+import './css/ProductPage.css';
 
-const RegisterPage = () => {
-    const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const ProductPage = () => {
+    const { id } = useParams();
+    const { addToCart } = useCart();
+    const [product, setProduct] = useState(null);
+    const [cantidad, setCantidad] = useState(1);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await api.post('/auth/register', { username, email, password });
-            localStorage.setItem('userInfo', JSON.stringify(res.data));
-            toast.success('Registro exitoso');
-            navigate('/');
-        } catch (error) {
-            console.error('Error al registrarse:', error);
-            toast.error(error.response?.data?.message || 'Error al registrarse');
-        }
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const res = await api.get(`/products/${id}`);
+                setProduct(res.data);
+            } catch (error) {
+                console.error('Error al obtener el producto:', error);
+            }
+        };
+
+        fetchProduct();
+    }, [id]);
+
+    const handleAddToCart = () => {
+        addToCart(product, cantidad);
+        toast.success('Producto añadido al carrito');
     };
 
+    if (!product) return <div>Cargando...</div>;
+
     return (
-        <div className="register-page">
-            <h1>Registrarse</h1>
-            <form onSubmit={handleSubmit} className="register-form">
-                <label>Nombre de Usuario:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-
-                <label>Email:</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-
-                <label>Contraseña:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-
-                <button type="submit" className="btn">
-                    Registrarse
-                </button>
-            </form>
-            <p>
-                ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión aquí</Link>
-            </p>
+        <div className="product-page">
+            <img src={product.imagen} alt={product.nombre} className="product-page__image" />
+            <div className="product-page__details">
+                <h2>{product.nombre}</h2>
+                <p>{product.descripcion}</p>
+                <p className="price">${product.precio}</p>
+                <p>Stock: {product.stock}</p>
+                <div className="product-page__actions">
+                    <input
+                        type="number"
+                        min="1"
+                        max={product.stock}
+                        value={cantidad}
+                        onChange={(e) => setCantidad(Number(e.target.value))}
+                    />
+                    <button onClick={handleAddToCart} className="btn">
+                        Añadir al Carrito
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default RegisterPage;
+export default ProductPage;

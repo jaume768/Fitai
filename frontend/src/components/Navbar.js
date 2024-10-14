@@ -24,10 +24,10 @@ const Navbar = () => {
             {/* Parte Central: Enlaces "WOMEN'S" y "MEN'S" */}
             <div className="navbar__center">
                 <Link to="/category/women" className="navbar__category">
-                    WOMEN'S
+                    <b>WOMEN'S</b>
                 </Link>
                 <Link to="/category/men" className="navbar__category">
-                    MEN'S
+                    <b>MEN'S</b>
                 </Link>
             </div>
 
