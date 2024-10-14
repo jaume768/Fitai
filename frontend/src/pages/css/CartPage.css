@@ -1,6 +1,8 @@
 .cart-page {
     padding: 2rem;
     min-height: 80vh;
+    overflow-x: hidden;
+    /* Previene desbordamiento horizontal */
 }
 
 .cart-page h1 {
@@ -43,6 +45,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    /* Para responsividad */
 }
 
 .btn-clear {
@@ -56,4 +60,16 @@
 
 .btn-clear:hover {
     background-color: #3333ff;
+}
+
+/* Responsividad para CartPage */
+@media (max-width: 768px) {
+    .cart-summary {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-clear {
+        margin-top: 1rem;
+    }
 }

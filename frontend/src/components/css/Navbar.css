@@ -29,6 +29,7 @@
 .navbar__center {
     display: flex;
     gap: 2rem;
+    /* Eliminar margin-left para evitar desbordamientos */
     margin-left: 250px;
 }
 
@@ -77,4 +78,24 @@
 
 .btn-logout:hover {
     color: #ff0000;
+}
+
+/* Responsividad para Navbar */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar__center {
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .navbar__right {
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
 }

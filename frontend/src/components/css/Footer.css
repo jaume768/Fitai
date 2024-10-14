@@ -2,8 +2,15 @@
     background-color: #0000ff;
     color: #ffffff;
     text-align: center;
-    padding: 0.3rem 0;
+    padding: 1.5rem 0;
     position: fixed;
     width: 100%;
     bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+
+body {
+    padding-bottom: 4rem; 
 }
