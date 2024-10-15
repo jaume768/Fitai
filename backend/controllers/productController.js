@@ -1,33 +1,30 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 
-// Obtener todos los productos o filtrar por categoría
 exports.getProducts = async (req, res) => {
     try {
         const { category } = req.query;
         let filter = {};
 
         if (category) {
-            // Buscar la categoría por nombre
             const categoria = await Category.findOne({ nombre: category.toUpperCase() });
             if (categoria) {
-                filter.categoria = categoria._id;
+                filter.categorias = categoria._id; // Filtrar productos que incluyan esta categoría
             } else {
                 return res.status(404).json({ message: 'Categoría no encontrada' });
             }
         }
 
-        const products = await Product.find(filter).populate('categoria', 'nombre');
+        const products = await Product.find(filter).populate('categorias', 'nombre');
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener los productos', error: error.message });
     }
 };
 
-// Obtener un producto por ID
 exports.getProductById = async (req, res) => {
     try {
-        const producto = await Product.findById(req.params.id);
+        const producto = await Product.findById(req.params.id).populate('categorias', 'nombre');
         if (producto) {
             res.json(producto);
         } else {
@@ -38,22 +35,26 @@ exports.getProductById = async (req, res) => {
     }
 };
 
-// Crear un nuevo producto
 exports.createProduct = async (req, res) => {
     try {
-        const { nombre, descripcion, precio, categoria, imagen, stock } = req.body;
+        const { nombre, descripcion, precio, categorias, imagen, stock } = req.body;
 
-        // Verificar si la categoría existe
-        const categoriaExistente = await Category.findById(categoria);
-        if (!categoriaExistente) {
-            return res.status(400).json({ message: 'Categoría inválida' });
+        // Validar que 'categorias' sea un arreglo no vacío
+        if (!Array.isArray(categorias) || categorias.length === 0) {
+            return res.status(400).json({ message: 'Debe proporcionar al menos una categoría válida' });
+        }
+
+        // Verificar que todas las categorías existan
+        const categoriasExistentes = await Category.find({ _id: { $in: categorias } });
+        if (categoriasExistentes.length !== categorias.length) {
+            return res.status(400).json({ message: 'Una o más categorías son inválidas' });
         }
 
         const product = await Product.create({
             nombre,
             descripcion,
             precio,
-            categoria,
+            categorias,
             imagen,
             stock,
         });
@@ -67,7 +68,7 @@ exports.createProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, descripcion, precio, categoria, imagen, stock } = req.body;
+        const { nombre, descripcion, precio, categorias, imagen, stock } = req.body;
 
         const product = await Product.findById(id);
 
@@ -75,21 +76,26 @@ exports.updateProduct = async (req, res) => {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
 
-        // Si se está actualizando la categoría, verificar su existencia
-        if (categoria) {
-            const categoriaExistente = await Category.findById(categoria);
-            if (!categoriaExistente) {
-                return res.status(400).json({ message: 'Categoría inválida' });
+        if (categorias) {
+            // Validar que 'categorias' sea un arreglo no vacío
+            if (!Array.isArray(categorias) || categorias.length === 0) {
+                return res.status(400).json({ message: 'Debe proporcionar al menos una categoría válida' });
             }
-            product.categoria = categoria;
+
+            // Verificar que todas las categorías existan
+            const categoriasExistentes = await Category.find({ _id: { $in: categorias } });
+            if (categoriasExistentes.length !== categorias.length) {
+                return res.status(400).json({ message: 'Una o más categorías son inválidas' });
+            }
+
+            product.categorias = categorias;
         }
 
-        // Actualizar otros campos si están presentes
         if (nombre) product.nombre = nombre;
         if (descripcion) product.descripcion = descripcion;
         if (precio) product.precio = precio;
         if (imagen) product.imagen = imagen;
-        if (stock) product.stock = stock;
+        if (stock !== undefined) product.stock = stock; // Permitir stock = 0
 
         await product.save();
 
@@ -98,35 +104,33 @@ exports.updateProduct = async (req, res) => {
         res.status(500).json({ message: 'Error al actualizar el producto', error: error.message });
     }
 };
-// Eliminar un producto
+
 exports.deleteProduct = async (req, res) => {
     try {
-        const producto = await Product.findById(req.params.id);
+        const producto = await Product.findByIdAndDelete(req.params.id);
 
         if (producto) {
-            await producto.remove();
             res.json({ message: 'Producto eliminado' });
         } else {
             res.status(404).json({ message: 'Producto no encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Error al eliminar el producto' });
+        console.error('Error al eliminar el producto:', error);
+        res.status(500).json({ message: 'Error al eliminar el producto', error: error.message });
     }
 };
-
 
 exports.getProductsByCategory = async (req, res) => {
     try {
         const { category } = req.params;
 
-        // Buscar la categoría por nombre
         const categoria = await Category.findOne({ nombre: category.toUpperCase() });
 
         if (!categoria) {
             return res.status(404).json({ message: 'Categoría no encontrada' });
         }
 
-        const products = await Product.find({ categoria: categoria._id }).populate('categoria', 'nombre');
+        const products = await Product.find({ categorias: categoria._id }).populate('categorias', 'nombre');
 
         res.status(200).json(products);
     } catch (error) {

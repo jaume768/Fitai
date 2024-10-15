@@ -18,11 +18,13 @@ const productSchema = new mongoose.Schema(
             required: true,
             default: 0.0,
         },
-        categoria: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Category',
-            required: true,
-        },
+        categorias: [ // Cambiado de 'categoria' a 'categorias' y convertido en arreglo
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Category',
+                required: true,
+            }
+        ],
         imagen: {
             type: String,
             required: true,
