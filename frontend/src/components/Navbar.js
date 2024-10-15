@@ -1,65 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import './css/Navbar.css';
 import { ReactComponent as Icon } from '../assets/images/icon.svg';
 
 const Navbar = () => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    const [isMobile, setIsMobile] = useState(false);
 
-    const handleLogout = () => {
-        localStorage.removeItem('userInfo');
-        window.location.reload();
+    const handleToggle = () => {
+        setIsMobile(!isMobile);
+    };
+
+    const closeMobileMenu = () => {
+        setIsMobile(false);
     };
 
     return (
         <nav className="navbar">
-            {/* Parte Izquierda: Icono SVG */}
             <div className="navbar__left">
-                <Link to="/">
-                    <Icon className="navbar__icon" aria-label="DeportesStore Logo" />
+                <Link to="/" className="navbar__logo" onClick={closeMobileMenu}>
+                    <Icon className="navbar__icon" />
                 </Link>
             </div>
 
-            {/* Parte Central: Enlaces "WOMEN'S" y "MEN'S" */}
-            <div className="navbar__center">
-                <Link to="/category/women" className="navbar__category">
-                    <b>WOMEN'S</b>
+            <div className={`navbar__center ${isMobile ? 'navbar__center--active' : ''}`}>
+                <Link to="/" className="navbar__category" onClick={closeMobileMenu}>
+                    Inicio
                 </Link>
-                <Link to="/category/men" className="navbar__category">
-                    <b>MEN'S</b>
+                <Link to="/category/women" className="navbar__category" onClick={closeMobileMenu}>
+                    Women
+                </Link>
+                <Link to="/category/men" className="navbar__category" onClick={closeMobileMenu}>
+                    Men
+                </Link>
+                <Link to="/cart" className="navbar__category" onClick={closeMobileMenu}>
+                    <FaShoppingCart /> Carrito
+                </Link>
+                <Link to="/login" className="navbar__category" onClick={closeMobileMenu}>
+                    Iniciar Sesión
                 </Link>
             </div>
 
-            {/* Parte Derecha: Enlaces Actuales */}
             <ul className="navbar__right">
-                <li>
-                    <Link to="/">Inicio</Link>
-                </li>
-                <li>
-                    <Link to="/cart">
-                        <FaShoppingCart /> Carrito
-                    </Link>
-                </li>
-                {userInfo.token ? (
-                    <>
-                        <li>
-                            <span>Hola, {userInfo.username}</span>
-                        </li>
-                        <li>
-                            <button onClick={handleLogout} className="btn-logout">
-                                Cerrar Sesión
-                            </button>
-                        </li>
-                    </>
-                ) : (
-                    <li>
-                        <Link to="/login">
-                            <FaUser /> Iniciar Sesión
-                        </Link>
-                    </li>
-                )}
             </ul>
+
+            <div className="navbar__mobile-icon" onClick={handleToggle}>
+                {isMobile ? <FaTimes /> : <FaBars />}
+            </div>
         </nav>
     );
 };

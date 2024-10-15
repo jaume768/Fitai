@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
     return (
-        <div className="hero-container" style={{ backgroundImage: `url(${heroImage})` }}>
+        <div className="hero-container">
             <div className="hero-content">
                 <h1>NEW STUFF JUST DROPPED</h1>
                 <p>Grab a new fit, go gym, make progress easy.</p>

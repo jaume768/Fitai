@@ -12,9 +12,8 @@ const CategoryPage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await api.get('/products', {
-                    params: { category: category.toUpperCase() }
-                });
+                const res = await api.get(`/products/category/${category}`);
+                
                 setProducts(res.data);
             } catch (error) {
                 console.error('Error al obtener productos por categoría:', error);

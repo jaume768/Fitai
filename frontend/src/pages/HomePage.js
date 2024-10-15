@@ -17,7 +17,7 @@ const HomePage = () => {
         const fetchNewProducts = async () => {
             try {
                 const res = await api.get('/products', {
-                    params: { category: 'NUEVOS' } // Asegúrate de que "NUEVOS" es el nombre correcto de la categoría
+                    params: { category: 'NUEVOS' }
                 });
                 setProducts(res.data);
             } catch (error) {
@@ -32,7 +32,7 @@ const HomePage = () => {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 4, // Número de tarjetas visibles
+        slidesToShow: 4,
         slidesToScroll: 1,
         responsive: [
             {

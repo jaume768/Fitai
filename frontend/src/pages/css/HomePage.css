@@ -87,11 +87,11 @@
     }
 
     .carousel__controls {
-        margin-top: 1rem;
+        display: none;
     }
 
     .featured-title {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
 
     .homepage__products {

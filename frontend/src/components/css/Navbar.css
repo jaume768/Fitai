@@ -15,6 +15,12 @@
     align-items: center;
 }
 
+.navbar__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
 .navbar__icon {
     width: 40px;
     height: 40px;
@@ -29,8 +35,6 @@
 .navbar__center {
     display: flex;
     gap: 2rem;
-    /* Eliminar margin-left para evitar desbordamientos */
-    margin-left: 250px;
 }
 
 .navbar__category {
@@ -80,22 +84,49 @@
     color: #ff0000;
 }
 
-/* Responsividad para Navbar */
+.navbar__mobile-icon {
+    display: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #000000;
+}
+
 @media (max-width: 768px) {
-    .navbar {
+    .navbar__center {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .navbar__center--active {
+        transform: translateY(0);
+    }
+
+    .navbar__mobile-icon {
+        display: block;
     }
 
     .navbar__center {
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-top: 1rem;
+        display: flex;
+    }
+
+    .navbar__center:not(.navbar__center--active) {
+        display: none;
+    }
+
+    .navbar__logo {
+        flex: 1;
     }
 
     .navbar__right {
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-top: 1rem;
+        display: none;
     }
 }
