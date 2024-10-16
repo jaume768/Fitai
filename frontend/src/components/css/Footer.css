@@ -1,16 +1,11 @@
 .footer {
-    background-color: #0000ff;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #000000;
     text-align: center;
     padding: 1.5rem 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
 body {
-    padding-bottom: 4rem; 
+    padding-bottom: 0; 
 }

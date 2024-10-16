@@ -2,6 +2,7 @@
     display: block;
     border: 1px solid #dddddd;
     border-radius: 8px;
+    text-decoration: none;
     text-align: center;
     background-color: #ffffff;
     transition: box-shadow 0.3s ease, transform 0.3s ease;

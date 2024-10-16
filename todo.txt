@@ -1,0 +1,4 @@
+arreglar carrito
+poner mas inserts de ropa y hacer el apartado de populares en el home
+mejorar apartado de women y men
+hacer usuario admin para insertar, editar y eliminar productos y categorias desde un formulario

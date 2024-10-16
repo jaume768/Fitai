@@ -37,7 +37,7 @@ const ProductPage = () => {
             <div className="product-page__details">
                 <h2>{product.nombre}</h2>
                 <p>{product.descripcion}</p>
-                <p className="price">${product.precio}</p>
+                <p className="price">{product.precio}€</p>
                 <p>Stock: {product.stock}</p>
                 <div className="product-page__actions">
                     <input

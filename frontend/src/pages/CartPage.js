@@ -1,3 +1,4 @@
+// src/pages/CartPage.js
 import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 import { useCart } from '../context/CartContext';
@@ -36,15 +37,15 @@ const CartPage = () => {
         toast.info('Carrito vacío');
     };
 
-    const total = products.reduce(
-        (acc, product, index) => acc + product.precio * cartItems[index].cantidad,
-        0
-    );
+    const total = cartItems.reduce((acc, item) => {
+        const product = products.find(p => p._id === item.producto);
+        return acc + (product ? product.precio * item.cantidad : 0);
+    }, 0);
 
     return (
         <div className="cart-page">
             <h1>Tu Carrito</h1>
-            {products.length === 0 ? (
+            {cartItems.length === 0 ? (
                 <p>Tu carrito está vacío.</p>
             ) : (
                 <>
@@ -59,27 +60,30 @@ const CartPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {products.map((product, index) => (
-                                <tr key={product._id}>
-                                    <td>{product.nombre}</td>
-                                    <td>${product.precio}</td>
-                                    <td>{cartItems[index].cantidad}</td>
-                                    <td>${product.precio * cartItems[index].cantidad}</td>
-                                    <td>
-                                        <button onClick={() => handleRemove(product._id)} className="btn-remove">
-                                            Eliminar
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                            {cartItems.map((item) => {
+                                const product = products.find(p => p._id === item.producto);
+                                if (!product) return null;
+                                return (
+                                    <tr key={product._id}>
+                                        <td data-label="Producto">{product.nombre}</td>
+                                        <td data-label="Precio">{product.precio}€</td>
+                                        <td data-label="Cantidad">{item.cantidad}</td>
+                                        <td data-label="Subtotal">{(product.precio * item.cantidad).toFixed(2)}€</td>
+                                        <td data-label="Acciones">
+                                            <button onClick={() => handleRemove(product._id)} className="btn-remove">
+                                                Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                     <div className="cart-summary">
-                        <h2>Total: ${total.toFixed(2)}</h2>
+                        <h2>Total: {total.toFixed(2)}€</h2>
                         <button onClick={handleClear} className="btn-clear">
                             Vaciar Carrito
                         </button>
-                        {/* Aquí puedes agregar un botón para proceder al pago */}
                     </div>
                 </>
             )}

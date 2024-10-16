@@ -36,7 +36,7 @@ const Navbar = () => {
                 <Link to="/cart" className="navbar__category" onClick={closeMobileMenu}>
                     <FaShoppingCart /> Carrito
                 </Link>
-                <Link to="/login" className="navbar__category" onClick={closeMobileMenu}>
+                <Link to="/auth" className="navbar__category" onClick={closeMobileMenu}>
                     Iniciar Sesión
                 </Link>
             </div>
