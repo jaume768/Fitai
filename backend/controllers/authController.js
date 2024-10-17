@@ -8,22 +8,20 @@ const generateToken = (id) => {
     });
 };
 
-// Registro de Usuario
 exports.register = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     try {
-        // Verificar si el usuario ya existe
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ message: 'Usuario ya registrado' });
         }
 
-        // Crear nuevo usuario
         const user = await User.create({
             username,
             email,
             password,
+            role: role || 'user',
         });
 
         if (user) {
@@ -31,6 +29,7 @@ exports.register = async (req, res) => {
                 _id: user._id,
                 username: user.username,
                 email: user.email,
+                role: user.role,
                 token: generateToken(user._id),
             });
         } else {
@@ -38,18 +37,6 @@ exports.register = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: 'Error del servidor' });
-    }
-};
-
-exports.getProfile = async (req, res) => {
-    try {
-        const user = await User.findById(req.user.id).select('-password');
-        if (!user) {
-            return res.status(404).json({ message: 'Usuario no encontrado' });
-        }
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al obtener el perfil del usuario', error: error.message });
     }
 };
 
@@ -66,6 +53,7 @@ exports.login = async (req, res) => {
                 _id: user._id,
                 username: user.username,
                 email: user.email,
+                role: user.role,
                 token: generateToken(user._id),
             });
         } else {
@@ -73,5 +61,17 @@ exports.login = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: 'Error del servidor' });
+    }
+};
+
+exports.getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener el perfil del usuario', error: error.message });
     }
 };

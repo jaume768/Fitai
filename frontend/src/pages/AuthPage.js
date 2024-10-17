@@ -1,5 +1,5 @@
+// src/pages/AuthPage.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../utils/api';
@@ -9,7 +9,6 @@ import IconSVG from '../assets/images/icon.svg';
 import { useAuth } from '../context/AuthContext';
 
 const AuthPage = () => {
-    const navigate = useNavigate();
     const { login } = useAuth();
     const [isLogin, setIsLogin] = useState(true);
 
@@ -32,12 +31,10 @@ const AuthPage = () => {
                 const res = await api.post('/auth/login', { email, password });
                 login(res.data);
                 toast.success('Inicio de sesión exitoso');
-                navigate('/');
             } else {
                 const res = await api.post('/auth/register', { username, email, password });
                 login(res.data);
                 toast.success('Registro exitoso');
-                navigate('/');
             }
         } catch (error) {
             console.error('Error en AuthPage:', error);

@@ -1,0 +1,82 @@
+/* src/pages/css/AdminProducts.css */
+
+.admin-products {
+    max-width: 100%;
+}
+
+.admin-products h2 {
+    margin-bottom: 1rem;
+    color: #0000ff;
+}
+
+.admin-product-form {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.admin-product-form h3 {
+    margin-bottom: 1rem;
+}
+
+.admin-product-form div {
+    margin-bottom: 0.5rem;
+}
+
+.admin-product-form label {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.admin-product-form input,
+.admin-product-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+.admin-product-form button {
+    padding: 0.5rem 1rem;
+    background-color: #0000ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.admin-product-form button:hover {
+    background-color: #3333ff;
+}
+
+.admin-product-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-product-list th,
+.admin-product-list td {
+    border: 1px solid #dddddd;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.admin-product-list th {
+    background-color: #f4f4f4;
+}
+
+.admin-product-list button {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #ff4d4d;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.admin-product-list button:hover {
+    background-color: #ff1a1a;
+}

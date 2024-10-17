@@ -21,9 +21,13 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Por favor, ingresa una contraseña'],
         minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
     },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user',
+    },
 }, { timestamps: true });
 
-// Encriptar la contraseña antes de guardar
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();
@@ -33,7 +37,6 @@ UserSchema.pre('save', async function (next) {
     next();
 });
 
-// Método para comparar contraseñas
 UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };

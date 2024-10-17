@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { CartProvider } from './context/CartContext';
-import './index.css'; // Crea este archivo para estilos globales
+import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>

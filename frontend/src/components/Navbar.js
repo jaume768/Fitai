@@ -1,10 +1,10 @@
 // src/components/Navbar.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import './css/Navbar.css';
 import { ReactComponent as Icon } from '../assets/images/icon.svg';
-import { useAuth } from '../context/AuthContext'; 
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -44,6 +44,11 @@ const Navbar = () => {
                         <Link to="/profile" className="navbar__category" onClick={closeMobileMenu}>
                             Ver mi perfil
                         </Link>
+                        {user.role === 'admin' && (
+                            <Link to="/admin/dashboard" className="navbar__category" onClick={closeMobileMenu}>
+                                Admin
+                            </Link>
+                        )}
                     </>
                 ) : (
                     <Link to="/auth" className="navbar__category" onClick={closeMobileMenu}>
