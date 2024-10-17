@@ -1,4 +1,3 @@
-arreglar carrito
-poner mas inserts de ropa y hacer el apartado de populares en el home
+arreglar la página de categorias, no hace el get de la categoria
 mejorar apartado de women y men
 hacer usuario admin para insertar, editar y eliminar productos y categorias desde un formulario

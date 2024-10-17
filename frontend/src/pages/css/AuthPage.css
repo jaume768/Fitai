@@ -6,7 +6,7 @@
 
 .auth-image {
     flex: 1;
-    display: none;
+    display: block;
 }
 
 .auth-image img {
