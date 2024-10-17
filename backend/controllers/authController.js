@@ -41,6 +41,18 @@ exports.register = async (req, res) => {
     }
 };
 
+exports.getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener el perfil del usuario', error: error.message });
+    }
+};
+
 // Login de Usuario
 exports.login = async (req, res) => {
     const { email, password } = req.body;

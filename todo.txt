@@ -1,3 +1,2 @@
-arreglar la página de categorias, no hace el get de la categoria
-mejorar apartado de women y men
 hacer usuario admin para insertar, editar y eliminar productos y categorias desde un formulario
+mejorar apartado de women y men

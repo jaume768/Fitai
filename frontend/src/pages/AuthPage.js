@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../utils/api';
 import './css/AuthPage.css';
 import loginImage from '../assets/images/login-image.jpg';
 import IconSVG from '../assets/images/icon.svg';
+import { useAuth } from '../context/AuthContext';
 
 const AuthPage = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [isLogin, setIsLogin] = useState(true);
 
     const [email, setEmail] = useState('');
@@ -27,13 +30,12 @@ const AuthPage = () => {
         try {
             if (isLogin) {
                 const res = await api.post('/auth/login', { email, password });
-                localStorage.setItem('userInfo', JSON.stringify(res.data));
+                login(res.data);
                 toast.success('Inicio de sesión exitoso');
                 navigate('/');
             } else {
-                // Registro
                 const res = await api.post('/auth/register', { username, email, password });
-                localStorage.setItem('userInfo', JSON.stringify(res.data));
+                login(res.data);
                 toast.success('Registro exitoso');
                 navigate('/');
             }

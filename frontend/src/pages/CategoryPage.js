@@ -12,7 +12,9 @@ const CategoryPage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await api.get(`/products/category/${category}`);
+                const res = await api.get('/products', {
+                    params: { category: category }
+                });
                 
                 setProducts(res.data);
             } catch (error) {

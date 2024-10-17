@@ -9,6 +9,8 @@ import CartPage from './pages/CartPage';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
 import CategoryPage from './pages/CategoryPage';
+import ProfilePage from './pages/ProfilePage';
+import { AuthProvider } from './context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from './context/CartContext';
@@ -17,17 +19,20 @@ function App() {
   return (
     <CartProvider>
       <Router>
-        <Navbar />
-        <ToastContainer />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/category/:category" element={<CategoryPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-        <Footer />
+        <AuthProvider>
+          <Navbar />
+          <ToastContainer />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/category/:category" element={<CategoryPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+          <Footer />
+        </AuthProvider>
       </Router>
     </CartProvider>
   );

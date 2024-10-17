@@ -1,11 +1,14 @@
+// src/components/Navbar.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import './css/Navbar.css';
 import { ReactComponent as Icon } from '../assets/images/icon.svg';
+import { useAuth } from '../context/AuthContext'; 
 
 const Navbar = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const { user, logout } = useAuth();
 
     const handleToggle = () => {
         setIsMobile(!isMobile);
@@ -36,13 +39,18 @@ const Navbar = () => {
                 <Link to="/cart" className="navbar__category" onClick={closeMobileMenu}>
                     <FaShoppingCart /> Carrito
                 </Link>
-                <Link to="/auth" className="navbar__category" onClick={closeMobileMenu}>
-                    Iniciar Sesión
-                </Link>
+                {user ? (
+                    <>
+                        <Link to="/profile" className="navbar__category" onClick={closeMobileMenu}>
+                            Ver mi perfil
+                        </Link>
+                    </>
+                ) : (
+                    <Link to="/auth" className="navbar__category" onClick={closeMobileMenu}>
+                        Iniciar Sesión
+                    </Link>
+                )}
             </div>
-
-            <ul className="navbar__right">
-            </ul>
 
             <div className="navbar__mobile-icon" onClick={handleToggle}>
                 {isMobile ? <FaTimes /> : <FaBars />}
