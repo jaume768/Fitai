@@ -1,3 +1,4 @@
 mejorar perfil de admin (no poder eliminar tu propia cuenta, filtros, hombre o mujer al insertar un producto).
 mejorar apartado de women y men.
 que los usuarios puedan hacer compras.
+Script para scrapear web de gymshark y auto insertar productos?
