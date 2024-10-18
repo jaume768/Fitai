@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
-import '../css/AdminProducts.css';
+import '../css/AdminCategories.css'; // Cambiar a AdminCategories.css
 
 const AdminCategories = () => {
     const [categories, setCategories] = useState([]);

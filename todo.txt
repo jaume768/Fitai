@@ -1,2 +1,3 @@
-hacer usuario admin para insertar, editar y eliminar productos y categorias desde un formulario
-mejorar apartado de women y men
+mejorar perfil de admin (no poder eliminar tu propia cuenta, filtros, hombre o mujer al insertar un producto).
+mejorar apartado de women y men.
+que los usuarios puedan hacer compras.

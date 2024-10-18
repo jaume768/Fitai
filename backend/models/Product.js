@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema(
             required: true,
             default: 0.0,
         },
-        categorias: [ // Cambiado de 'categoria' a 'categorias' y convertido en arreglo
+        categorias: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Category',

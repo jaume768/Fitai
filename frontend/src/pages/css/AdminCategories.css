@@ -1,18 +1,18 @@
-/* src/pages/css/AdminProducts.css */
+/* src/pages/css/AdminCategories.css */
 
 /* Estilos Generales */
-.admin-products {
+.admin-categories {
     max-width: 100%;
     padding: 1rem;
 }
 
-.admin-products h2 {
+.admin-categories h2 {
     margin-bottom: 1rem;
     color: #0000ff;
     text-align: center;
 }
 
-.admin-product-form {
+.admin-category-form {
     margin-bottom: 2rem;
     padding: 1rem;
     border: 1px solid #dddddd;
@@ -20,25 +20,24 @@
     background-color: #f9f9f9;
 }
 
-.admin-product-form h3 {
+.admin-category-form h3 {
     margin-bottom: 1rem;
     color: #333333;
 }
 
-.admin-product-form div {
+.admin-category-form div {
     margin-bottom: 0.75rem;
 }
 
-.admin-product-form label {
+.admin-category-form label {
     display: block;
     margin-bottom: 0.25rem;
     font-weight: bold;
     color: #333333;
 }
 
-.admin-product-form input,
-.admin-product-form textarea,
-.admin-product-form select {
+.admin-category-form input,
+.admin-category-form textarea {
     width: 100%;
     padding: 0.6rem;
     border: 1px solid #cccccc;
@@ -48,23 +47,13 @@
     transition: border-color 0.3s ease;
 }
 
-.admin-product-form input:focus,
-.admin-product-form textarea:focus,
-.admin-product-form select:focus {
+.admin-category-form input:focus,
+.admin-category-form textarea:focus {
     border-color: #0000ff;
     outline: none;
 }
 
-.admin-product-form select {
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="7"><path fill="%23333" d="M0 0l5 5 5-5H0z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    background-size: 10px 7px;
-    cursor: pointer;
-}
-
-.admin-product-form button {
+.admin-category-form button {
     padding: 0.6rem 1.2rem;
     background-color: #0000ff;
     color: #ffffff;
@@ -75,33 +64,33 @@
     transition: background-color 0.3s ease;
 }
 
-.admin-product-form button:hover {
+.admin-category-form button:hover {
     background-color: #3333ff;
 }
 
-.admin-product-list {
+.admin-category-list {
     overflow-x: auto;
 }
 
-.admin-product-list table {
+.admin-category-list table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    min-width: 500px;
 }
 
-.admin-product-list th,
-.admin-product-list td {
+.admin-category-list th,
+.admin-category-list td {
     border: 1px solid #dddddd;
     padding: 0.75rem;
     text-align: left;
 }
 
-.admin-product-list th {
+.admin-category-list th {
     background-color: #f4f4f4;
     color: #333333;
 }
 
-.admin-product-list button {
+.admin-category-list button {
     margin-right: 0.5rem;
     padding: 0.4rem 0.8rem;
     background-color: #ff4d4d;
@@ -113,70 +102,59 @@
     transition: background-color 0.3s ease;
 }
 
-.admin-product-list button:hover {
+.admin-category-list button:hover {
     background-color: #ff1a1a;
-}
-
-/* Estilos Mejorados para el Select de Categorías */
-.admin-product-form select {
-    height: auto;
-    min-height: 3rem;
-}
-
-.admin-product-form select option {
-    padding: 0.5rem;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .admin-products {
+    .admin-categories {
         padding: 0.5rem;
     }
 
-    .admin-products h2 {
+    .admin-categories h2 {
         font-size: 1.5rem;
     }
 
-    .admin-product-form {
+    .admin-category-form {
         padding: 0.8rem;
     }
 
-    .admin-product-form h3 {
+    .admin-category-form h3 {
         font-size: 1.2rem;
     }
 
-    .admin-product-form div {
+    .admin-category-form div {
         margin-bottom: 0.5rem;
     }
 
-    .admin-product-form label {
+    .admin-category-form label {
         font-size: 0.9rem;
     }
 
-    .admin-product-form input,
-    .admin-product-form textarea,
-    .admin-product-form select {
+    .admin-category-form input,
+    .admin-category-form textarea {
         font-size: 0.9rem;
         padding: 0.4rem;
     }
 
-    .admin-product-form button {
+    .admin-category-form button {
         width: 100%;
         padding: 0.6rem;
         font-size: 1rem;
     }
 
-    .admin-product-list table {
+    .admin-category-list table {
         min-width: 100%;
     }
 
-    .admin-product-list th,
-    .admin-product-list td {
+    .admin-category-list th,
+    .admin-category-list td {
         padding: 0.5rem;
         font-size: 0.9rem;
     }
 
-    .admin-product-list button {
+    .admin-category-list button {
         padding: 0.3rem 0.6rem;
         font-size: 0.8rem;
     }

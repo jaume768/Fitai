@@ -52,6 +52,15 @@ exports.deleteUser = async (req, res) => {
 };
 
 // CRUD para Productos
+exports.getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.find().populate('categorias', 'nombre');
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los productos', error: error.message });
+    }
+};
+
 exports.createAdminProduct = async (req, res) => {
     const { nombre, descripcion, precio, categorias, imagen, stock } = req.body;
 
@@ -114,6 +123,15 @@ exports.deleteAdminProduct = async (req, res) => {
 };
 
 // CRUD para Categorías
+exports.getAllCategories = async (req, res) => {
+    try {
+        const categories = await Category.find().sort({ nombre: 1 }); // Ordenar alfabéticamente
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener las categorías', error: error.message });
+    }
+};
+
 exports.createAdminCategory = async (req, res) => {
     const { nombre, descripcion } = req.body;
 

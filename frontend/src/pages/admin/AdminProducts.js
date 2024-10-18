@@ -6,18 +6,20 @@ import '../css/AdminProducts.css';
 
 const AdminProducts = () => {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form, setForm] = useState({
         nombre: '',
         descripcion: '',
         precio: '',
-        categorias: '',
+        categorias: [],
         imagen: '',
         stock: '',
     });
 
     useEffect(() => {
         fetchProducts();
+        fetchCategories();
     }, []);
 
     const fetchProducts = async () => {
@@ -32,11 +34,32 @@ const AdminProducts = () => {
         }
     };
 
+    const fetchCategories = async () => {
+        try {
+            const res = await api.get('/admin/categories');
+            setCategories(res.data);
+        } catch (error) {
+            console.error('Error al obtener categorías:', error);
+            toast.error('Error al obtener categorías');
+        }
+    };
+
     const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value,
-        });
+        const { name, value, options } = e.target;
+        if (name === 'categorias') {
+            const selectedCategories = Array.from(options)
+                .filter(option => option.selected)
+                .map(option => option.value);
+            setForm({
+                ...form,
+                categorias: selectedCategories,
+            });
+        } else {
+            setForm({
+                ...form,
+                [name]: value,
+            });
+        }
     };
 
     const handleCreate = async (e) => {
@@ -44,7 +67,6 @@ const AdminProducts = () => {
         try {
             const newProduct = {
                 ...form,
-                categorias: form.categorias.split(',').map(cat => cat.trim()), // Convertir a array
                 precio: parseFloat(form.precio),
                 stock: parseInt(form.stock),
             };
@@ -55,7 +77,7 @@ const AdminProducts = () => {
                 nombre: '',
                 descripcion: '',
                 precio: '',
-                categorias: '',
+                categorias: [],
                 imagen: '',
                 stock: '',
             });
@@ -73,7 +95,7 @@ const AdminProducts = () => {
                 fetchProducts();
             } catch (error) {
                 console.error('Error al eliminar producto:', error);
-                toast.error('Error al eliminar producto');
+                toast.error(error.response?.data?.message || 'Error al eliminar producto');
             }
         }
     };
@@ -90,27 +112,68 @@ const AdminProducts = () => {
                 <h3>Crear Nuevo Producto</h3>
                 <div>
                     <label>Nombre:</label>
-                    <input type="text" name="nombre" value={form.nombre} onChange={handleChange} required />
+                    <input
+                        type="text"
+                        name="nombre"
+                        value={form.nombre}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
                     <label>Descripción:</label>
-                    <textarea name="descripcion" value={form.descripcion} onChange={handleChange} required></textarea>
+                    <textarea
+                        name="descripcion"
+                        value={form.descripcion}
+                        onChange={handleChange}
+                        required
+                    ></textarea>
                 </div>
                 <div>
                     <label>Precio:</label>
-                    <input type="number" name="precio" value={form.precio} onChange={handleChange} required />
+                    <input
+                        type="number"
+                        name="precio"
+                        value={form.precio}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label>Categorías (separadas por comas):</label>
-                    <input type="text" name="categorias" value={form.categorias} onChange={handleChange} required />
+                    <label>Categorías:</label>
+                    <select
+                        name="categorias"
+                        multiple
+                        value={form.categorias}
+                        onChange={handleChange}
+                        required
+                    >
+                        {categories.map(category => (
+                            <option key={category._id} value={category._id}>
+                                {category.nombre}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Imagen URL:</label>
-                    <input type="text" name="imagen" value={form.imagen} onChange={handleChange} required />
+                    <input
+                        type="text"
+                        name="imagen"
+                        value={form.imagen}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
                     <label>Stock:</label>
-                    <input type="number" name="stock" value={form.stock} onChange={handleChange} required />
+                    <input
+                        type="number"
+                        name="stock"
+                        value={form.stock}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <button type="submit">Crear Producto</button>
             </form>
@@ -138,8 +201,12 @@ const AdminProducts = () => {
                                     <td>{product.nombre}</td>
                                     <td>{product.descripcion}</td>
                                     <td>${product.precio.toFixed(2)}</td>
-                                    <td>{product.categorias.join(', ')}</td>
-                                    <td><a href={product.imagen} target="_blank" rel="noopener noreferrer">Ver Imagen</a></td>
+                                    <td>{product.categorias.map(cat => cat.nombre).join(', ')}</td>
+                                    <td>
+                                        <a href={product.imagen} target="_blank" rel="noopener noreferrer">
+                                            Ver Imagen
+                                        </a>
+                                    </td>
                                     <td>{product.stock}</td>
                                     <td>
                                         <button onClick={() => handleUpdate(product._id)}>Editar</button>
@@ -153,6 +220,7 @@ const AdminProducts = () => {
             </div>
         </div>
     );
+
 };
 
 export default AdminProducts;
