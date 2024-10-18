@@ -4,6 +4,7 @@ import api from '../utils/api';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
 import './css/CartPage.css';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
     const { cartItems, removeFromCart, clearCart } = useCart();
@@ -84,6 +85,9 @@ const CartPage = () => {
                         <button onClick={handleClear} className="btn-clear">
                             Vaciar Carrito
                         </button>
+                        <Link to="/checkout" className="btn-checkout">
+                            Proceder al Pago
+                        </Link>
                     </div>
                 </>
             )}

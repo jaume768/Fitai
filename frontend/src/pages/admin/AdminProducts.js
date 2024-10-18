@@ -7,6 +7,7 @@ import '../css/AdminProducts.css';
 const AdminProducts = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [genderCategories, setGenderCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form, setForm] = useState({
         nombre: '',
@@ -15,12 +16,19 @@ const AdminProducts = () => {
         categorias: [],
         imagen: '',
         stock: '',
+        genero: '',
     });
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         fetchProducts();
         fetchCategories();
+        fetchGenderCategories();
     }, []);
+
+    useEffect(() => {
+        filterProducts();
+    }, [search, products.length]);
 
     const fetchProducts = async () => {
         try {
@@ -37,11 +45,35 @@ const AdminProducts = () => {
     const fetchCategories = async () => {
         try {
             const res = await api.get('/admin/categories');
-            setCategories(res.data);
+            const filtered = res.data.filter(
+                category => category.nombre.toUpperCase() !== 'MEN' && category.nombre.toUpperCase() !== 'WOMEN'
+            );
+            setCategories(filtered);
         } catch (error) {
             console.error('Error al obtener categorías:', error);
             toast.error('Error al obtener categorías');
         }
+    };
+
+    const fetchGenderCategories = async () => {
+        try {
+            const res = await api.get('/admin/categories');
+            const genders = res.data.filter(
+                category => category.nombre.toUpperCase() === 'MEN' || category.nombre.toUpperCase() === 'WOMEN'
+            );
+            setGenderCategories(genders);
+        } catch (error) {
+            console.error('Error al obtener categorías de género:', error);
+            toast.error('Error al obtener categorías de género');
+        }
+    };
+
+    const filterProducts = () => {
+        const lowerSearch = search.toLowerCase();
+        const filtered = products.filter(product =>
+            product.nombre.toLowerCase().includes(lowerSearch)
+        );
+        setProducts(filtered);
     };
 
     const handleChange = (e) => {
@@ -54,6 +86,11 @@ const AdminProducts = () => {
                 ...form,
                 categorias: selectedCategories,
             });
+        } else if (name === 'genero') {
+            setForm({
+                ...form,
+                genero: value,
+            });
         } else {
             setForm({
                 ...form,
@@ -62,12 +99,27 @@ const AdminProducts = () => {
         }
     };
 
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    };
+
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
+            const selectedGenderCategory = genderCategories.find(
+                gender => gender.nombre.toLowerCase() === form.genero.toLowerCase()
+            );
+            if (!selectedGenderCategory) {
+                toast.error('Categoría de género no encontrada');
+                return;
+            }
+
             const newProduct = {
-                ...form,
+                nombre: form.nombre,
+                descripcion: form.descripcion,
                 precio: parseFloat(form.precio),
+                categorias: [...form.categorias, selectedGenderCategory._id],
+                imagen: form.imagen,
                 stock: parseInt(form.stock),
             };
             await api.post('/admin/products', newProduct);
@@ -80,7 +132,9 @@ const AdminProducts = () => {
                 categorias: [],
                 imagen: '',
                 stock: '',
+                genero: '',
             });
+            setSearch('');
         } catch (error) {
             console.error('Error al crear producto:', error);
             toast.error('Error al crear producto');
@@ -101,7 +155,6 @@ const AdminProducts = () => {
     };
 
     const handleUpdate = async (id) => {
-        // Implementar lógica para actualizar productos (puede ser mediante un modal o redirigiendo a una página de edición)
         toast.info('Función de actualización no implementada aún');
     };
 
@@ -138,6 +191,22 @@ const AdminProducts = () => {
                         onChange={handleChange}
                         required
                     />
+                </div>
+                <div>
+                    <label>Género:</label>
+                    <select
+                        name="genero"
+                        value={form.genero}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Selecciona Género</option>
+                        {genderCategories.map(gender => (
+                            <option key={gender._id} value={gender.nombre.toLowerCase()}>
+                                {gender.nombre}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Categorías:</label>
@@ -177,6 +246,15 @@ const AdminProducts = () => {
                 </div>
                 <button type="submit">Crear Producto</button>
             </form>
+
+            <div className="admin-product-search">
+                <input
+                    type="text"
+                    placeholder="Buscar producto..."
+                    value={search}
+                    onChange={handleSearchChange}
+                />
+            </div>
 
             <div className="admin-product-list">
                 <h3>Lista de Productos</h3>

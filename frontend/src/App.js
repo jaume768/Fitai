@@ -10,6 +10,8 @@ import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
 import CategoryPage from './pages/CategoryPage';
 import ProfilePage from './pages/ProfilePage';
+import CheckoutPage from './pages/CheckoutPage';
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminCategories from './pages/admin/AdminCategories';
@@ -20,14 +22,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from './context/CartContext';
 
 const ProtectedRoute = ({ children, admin }) => {
-    const { user } = useAuth();
-    if (!user) {
-        return <Navigate to="/auth" />;
-    }
-    if (admin && user.role !== 'admin') {
-        return <Navigate to="/" />;
-    }
-    return children;
+  const { user } = useAuth();
+  if (!user) {
+    return <Navigate to="/auth" />;
+  }
+  if (admin && user.role !== 'admin') {
+    return <Navigate to="/" />;
+  }
+  return children;
 };
 
 function App() {
@@ -43,22 +45,27 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/profile" element={
-                <ProtectedRoute>
-                    <ProfilePage />
-                </ProtectedRoute>
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
             } />
             <Route path="/category/:category" element={<CategoryPage />} />
-            
-            <Route path="/admin/dashboard" element={
-                <ProtectedRoute admin={true}>
-                    <AdminDashboard />
-                </ProtectedRoute>
-            }>
-                <Route path="products" element={<AdminProducts />} />
-                <Route path="categories" element={<AdminCategories />} />
-                <Route path="users" element={<AdminUsers />} />
-            </Route>
 
+            <Route path="/admin/dashboard" element={
+              <ProtectedRoute admin={true}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }>
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="categories" element={<AdminCategories />} />
+              <Route path="users" element={<AdminUsers />} />
+            </Route>
+            <Route path="/checkout" element={
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/payment-success" element={<PaymentSuccessPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <Footer />

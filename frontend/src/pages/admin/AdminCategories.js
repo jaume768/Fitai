@@ -2,24 +2,34 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
-import '../css/AdminCategories.css'; // Cambiar a AdminCategories.css
+import '../css/AdminCategories.css';
 
 const AdminCategories = () => {
     const [categories, setCategories] = useState([]);
+    const [filteredCategories, setFilteredCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form, setForm] = useState({
         nombre: '',
         descripcion: '',
     });
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        filterCategories();
+    }, [categories, search]);
+
     const fetchCategories = async () => {
         try {
             const res = await api.get('/admin/categories');
-            setCategories(res.data);
+            // Exclude 'MEN' and 'WOMEN' categories
+            const filtered = res.data.filter(
+                category => category.nombre.toUpperCase() !== 'MEN' && category.nombre.toUpperCase() !== 'WOMEN'
+            );
+            setCategories(filtered);
             setLoading(false);
         } catch (error) {
             console.error('Error al obtener categorías:', error);
@@ -28,11 +38,23 @@ const AdminCategories = () => {
         }
     };
 
+    const filterCategories = () => {
+        const lowerSearch = search.toLowerCase();
+        const filtered = categories.filter(category =>
+            category.nombre.toLowerCase().includes(lowerSearch)
+        );
+        setFilteredCategories(filtered);
+    };
+
     const handleChange = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value,
         });
+    };
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
     };
 
     const handleCreate = async (e) => {
@@ -45,6 +67,7 @@ const AdminCategories = () => {
                 nombre: '',
                 descripcion: '',
             });
+            setSearch('');
         } catch (error) {
             console.error('Error al crear categoría:', error);
             toast.error('Error al crear categoría');
@@ -85,6 +108,15 @@ const AdminCategories = () => {
                 <button type="submit">Crear Categoría</button>
             </form>
 
+            <div className="admin-category-search">
+                <input
+                    type="text"
+                    placeholder="Buscar categoría..."
+                    value={search}
+                    onChange={handleSearchChange}
+                />
+            </div>
+
             <div className="admin-category-list">
                 <h3>Lista de Categorías</h3>
                 {loading ? (
@@ -99,7 +131,7 @@ const AdminCategories = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {categories.map(category => (
+                            {filteredCategories.map(category => (
                                 <tr key={category._id}>
                                     <td>{category.nombre}</td>
                                     <td>{category.descripcion}</td>
@@ -115,6 +147,7 @@ const AdminCategories = () => {
             </div>
         </div>
     );
+
 };
 
 export default AdminCategories;

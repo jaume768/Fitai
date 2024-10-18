@@ -7,6 +7,9 @@ const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const webhookRoutes = require('./routes/webhookRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 dotenv.config();
@@ -26,6 +29,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use('/webhook', webhookRoutes);
 
 // Ruta principal
 app.get('/', (req, res) => {

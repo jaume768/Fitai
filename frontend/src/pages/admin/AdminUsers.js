@@ -3,25 +3,47 @@ import React, { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import '../css/AdminUsers.css';
+import { useAuth } from '../../context/AuthContext';
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState('');
+    const { user: currentUser } = useAuth(); // Obtener el usuario actual
 
     useEffect(() => {
         fetchUsers();
     }, []);
 
+    useEffect(() => {
+        filterUsers();
+    }, [users, search]);
+
     const fetchUsers = async () => {
         try {
             const res = await api.get('/admin/users');
-            setUsers(res.data);
+            // Excluir al usuario actual
+            const filtered = res.data.filter(u => u._id !== currentUser._id);
+            setUsers(filtered);
             setLoading(false);
         } catch (error) {
             console.error('Error al obtener usuarios:', error);
             toast.error('Error al obtener usuarios');
             setLoading(false);
         }
+    };
+
+    const filterUsers = () => {
+        const lowerSearch = search.toLowerCase();
+        const filtered = users.filter(user =>
+            user.username.toLowerCase().includes(lowerSearch)
+        );
+        setFilteredUsers(filtered);
+    };
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
     };
 
     const handleUpdateRole = async (id, role) => {
@@ -51,6 +73,14 @@ const AdminUsers = () => {
     return (
         <div className="admin-users">
             <h2>Gestión de Usuarios</h2>
+            <div className="admin-user-search">
+                <input
+                    type="text"
+                    placeholder="Buscar usuario..."
+                    value={search}
+                    onChange={handleSearchChange}
+                />
+            </div>
             {loading ? (
                 <p>Cargando usuarios...</p>
             ) : (
@@ -64,7 +94,7 @@ const AdminUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(user => (
+                        {filteredUsers.map(user => (
                             <tr key={user._id}>
                                 <td>{user.username}</td>
                                 <td>{user.email}</td>
